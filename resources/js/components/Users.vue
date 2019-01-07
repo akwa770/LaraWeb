@@ -85,7 +85,7 @@
                     </div>
 
                        <div class="form-group">
-                        <input v-model="form.password" type="text" name="password" placeholder="Password"
+                        <input v-model="form.password" type="password" name="password" placeholder="Password"
                             class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
                         <has-error :form="form" field="password"></has-error>
                     </div>
