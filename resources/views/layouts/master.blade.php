@@ -85,16 +85,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
 
-         
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Management
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-          </li>
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-cog green"></i>
+                <p>
+                  Management
+                  <i class="right fa fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link to="/users" class="nav-link">
+                    <i class="fas fa-users nav-icon"></i>
+                    <p>Users</p>
+                  </router-link>
+                </li>
+  
+              </ul>
+            </li>
+
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
