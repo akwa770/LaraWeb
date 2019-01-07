@@ -54,6 +54,9 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <form @submit.prevent="createUser">
+
+            
             <div class="modal-body">
                     <div class="form-group">
                         <input v-model="form.name" type="text" name="name" placeholder="Name"
@@ -72,12 +75,11 @@
                     </div>
 
                     <div class="form-group">
-                        <select name="type" v-model="form.type" id="type" class="form-control" 
-                            :class="{ 'is-invalid': form.errors.has('type') }">
-                            <option value="">Select user role</option>
-                            <option value="">Admin</option>
-                            <option value="">Standart User</option>
-                            <option value="">Author</option>
+                        <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
+                            <option value="">Select User Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">Standard User</option>
+                            <option value="author">Author</option>
                         </select>
                         <has-error :form="form" field="type"></has-error>
                     </div>
@@ -91,8 +93,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary">Create</button>
             </div>
+            </form>
             </div>
         </div>
         </div>
@@ -113,6 +116,11 @@
                     bio: '',
                     photo: ''
                 })
+            }
+        },
+        methods:{
+            createUser(){
+                this.form.post('api/user')
             }
         },
         mounted() {
