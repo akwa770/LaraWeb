@@ -132,9 +132,10 @@
             createUser(){
                 this.$Progress.start();
                 this.form.post('api/user');
+                Fire.$emit('UserCreated');
                 this.$Progress.finish();
                 $('#addNewUserCenter').modal('hide');
-                
+
                 toast({
                     type: 'success',
                     title: 'User created successfully'
@@ -143,6 +144,7 @@
         },
         created() {
             this.loadUsers();
+            Fire.$on('UserCreated', () => {this.loadUsers()});
         }
     }
 </script>
