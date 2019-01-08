@@ -31,13 +31,11 @@
                     <td>{{ user.created_at | myDate }}</td>
                     <td>
                         <a href="">
-                            Edit
-                            <i class="fa fa-edit"></i>
+                            <i class="fa fa-edit blue"></i>
                         </a> 
                    /
                        <a href="">
-                           Delete
-                            <i class="fa fa-trash"></i>
+                            <i class="fa fa-trash red"></i>
                         </a> 
                     </td>
                   </tr>
@@ -143,7 +141,7 @@
                     })
 
                 }).catch(()=>{
-                    
+
                 });
             }
         },

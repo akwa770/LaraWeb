@@ -1989,8 +1989,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -58403,13 +58401,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("td", [
       _c("a", { attrs: { href: "" } }, [
-        _vm._v("\n                        Edit\n                        "),
-        _c("i", { staticClass: "fa fa-edit" })
+        _c("i", { staticClass: "fa fa-edit blue" })
       ]),
       _vm._v(" \n               /\n                   "),
       _c("a", { attrs: { href: "" } }, [
-        _vm._v("\n                       Delete\n                        "),
-        _c("i", { staticClass: "fa fa-trash" })
+        _c("i", { staticClass: "fa fa-trash red" })
       ])
     ])
   },
