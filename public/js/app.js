@@ -2015,23 +2015,28 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createUser: function createUser() {
+      var _this2 = this;
+
       this.$Progress.start();
-      this.form.post('api/user');
-      Fire.$emit('UserCreated');
-      this.$Progress.finish();
-      $('#addNewUserCenter').modal('hide');
-      toast({
-        type: 'success',
-        title: 'User created successfully'
-      });
+      this.form.post('api/user').then(function () {
+        Fire.$emit('UserCreated');
+
+        _this2.$Progress.finish();
+
+        $('#addNewUserCenter').modal('hide');
+        toast({
+          type: 'success',
+          title: 'User created successfully'
+        });
+      }).catch(function () {});
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.loadUsers();
     Fire.$on('UserCreated', function () {
-      _this2.loadUsers();
+      _this3.loadUsers();
     });
   }
 });
