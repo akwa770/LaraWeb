@@ -84,7 +84,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </router-link>
           </li>
 
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Blog
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/posts" class="nav-link">
+                  <i class="fas fa-file-alt nav-icon"></i>
+                  <p>Posts</p>
+                </router-link>
+              </li>
 
+            </ul>
+          </li>
+          
           <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fa fa-cog"></i>
@@ -103,6 +121,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   
               </ul>
             </li>
+
 
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
