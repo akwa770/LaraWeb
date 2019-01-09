@@ -7,7 +7,7 @@
                 <h3 class="card-title">Users Table</h3>
 
                 <div class="card-tools">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#addNewUserCenter">Add New </button>
+                    <button class="btn btn-success" @click="newUserModal" >Add New <i class="fas fa-user-plus fa-fw"></i> </button>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -30,7 +30,7 @@
                     <td>{{ user.type | upperCase }}</td>
                     <td>{{ user.created_at | myDate }}</td>
                     <td>
-                        <a href="">
+                        <a href="#" @click="editUserModal(user)">
                             <i class="fa fa-edit blue"></i>
                         </a> 
                    /
@@ -53,12 +53,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addNewUserCenterTitle">Add New User</h5>
+                <h5 v-show="!editMode" class="modal-title" id="addNewUserCenterTitle">Add New User</h5>
+                <h5 v-show="editMode" class="modal-title" id="addNewUserCenterTitle">Update User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form @submit.prevent="createUser">
+            <form @submit.prevent="editMode ? updateUser() : createUser()">
 
             
             <div class="modal-body">
@@ -97,7 +98,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button v-show="!editMode" type="submit" class="btn btn-primary">Create</button>
+                <button v-show="editMode" type="submit" class="btn btn-success">Update</button>
             </div>
             </form>
             </div>
@@ -112,8 +114,10 @@
     export default {
         data(){
             return{
+               editMode : true,
                users: {},
                form: new Form({
+                    id: '',
                     name: '',
                     email: '',
                     password: '',
@@ -124,27 +128,32 @@
             }
         },
         methods:{
-            // deleteUser(id){
-            //     console.log('XXXXXXXXXXXXXXXXXX');
-                
-            //     swal({
-            //         title: 'Are you sure?',
-            //         text: "You won't be able to revert this!",
-            //         type: 'warning',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#3085d6',
-            //         cancelButtonColor: '#d33',
-            //         confirmButtonText: 'Yes, delete it!'
-            //     }).then((result) => {
-            //         if (result.value) {
-            //             swal(
-            //             'Deleted!',
-            //             'The user has been deleted.',
-            //             'success'
-            //             )
-            //         }
-            //     })
-            // },
+            updateUser(){
+                this.$Progress.start();
+                this.form.put('api/user/'+this.form.id)
+                .then(() => {
+                    swal(
+                        'Updated!',
+                        'the User info has been updated.',
+                        'success'
+                        )
+                    Fire.$emit('UserChange');
+                    $('#addNewUserCenter').modal('hide');
+                    this.$Progress.finish();
+                })
+                .catch()
+                    this.$Progress.fail();
+            },
+            newUserModal(){
+                this.editMode = false;
+                this.form.reset();
+                 $('#addNewUserCenter').modal('show');
+            },
+            editUserModal(user){
+                this.editMode = true;
+                this.form.fill(user);
+                 $('#addNewUserCenter').modal('show');
+            },
             loadUsers(){
                 axios.get('api/user').then(({data}) => (this.users = data.data))
             },
@@ -155,7 +164,7 @@
                     Fire.$emit('UserChange');
                     this.$Progress.finish();
                     $('#addNewUserCenter').modal('hide');
-    
+
                     toast({
                         type: 'success',
                         title: 'User created successfully'
