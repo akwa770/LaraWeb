@@ -60,12 +60,27 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         $user =  auth('api')->user();
+        $currentPhoto = $user->photo;
 
-        // return ['message' => 'User Profile Updated'];
-        if($request->photo){
+        $this->validate($request,
+        [
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
+            'password' => 'sometimes|min:6',
+     
+        ]);
+
+        if($request->photo != $currentPhoto){
+            
             $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
             \Image::make($request->photo)->save(public_path('images/profile/').$name);
+            
+            $request->merge(['photo' => $name]);
+
         }
+        
+        $user->update($request->all());
+        return ['message' => 'User Profile Updated'];
 
     }
 
