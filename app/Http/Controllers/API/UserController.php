@@ -77,8 +77,17 @@ class UserController extends Controller
             
             $request->merge(['photo' => $name]);
 
+            $userPhoto = public_path('images/profile/').$currentPhoto;
+            if(file_exists($userPhoto)){
+                @unlink($userPhoto);
+            }
+
         }
-        
+
+        if (!empty($request->password)) {
+            $request->merge(['password' => Hash::make($request['password'])]);
+        }
+
         $user->update($request->all());
         return ['message' => 'User Profile Updated'];
 
@@ -136,3 +145,5 @@ class UserController extends Controller
         return ['message' => 'User Deleted'];
     }
 }
+
+

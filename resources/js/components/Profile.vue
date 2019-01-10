@@ -4,6 +4,7 @@
         background-position: center center;
         background-size: cover;
         height: 300px !important ;
+        filter: opacity(30%);
     }
 
 </style>
@@ -15,17 +16,17 @@
             <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header text-white" style="background-image:url('./images/profile-bg.jpg');">
-                <h3 class="widget-user-username">Elizabeth Pierce  {{ this.form.name }} </h3>
-                <h5 class="widget-user-desc">Web Designer {{ this.form.type }}</h5>
+                <h3 class="widget-user-username">{{ this.form.name }}</h3>
+                <h5 class="widget-user-desc">{{ this.form.bio }}</h5>
               </div>
               <div class="widget-user-image">
-                <img class="img-circle" src="" alt="User Avatar">
+                <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar">
               </div>
               <div class="card-footer">
                 <div class="row">
                   <div class="col-sm-4 border-right">
                         <div class="description-block">
-                        <h5 class="description-header">3,200</h5>
+                        <h5 class="description-header">3,200 </h5>
                         <span class="description-text">SALES</span>
                         </div>
                         <!-- /.description-block -->
@@ -84,14 +85,16 @@
                         <label for="inputName" class="col-sm-2 control-label">Name</label>
 
                         <div class="col-sm-10">
-                          <input v-model="form.name" type="email" class="form-control" id="inputName" placeholder="Name">
+                          <input v-model="form.name" type="email" class="form-control" id="inputName" placeholder="Name" :class="{ 'is-invalid': form.errors.has('name') }">
+                          <has-error :form="form" field="name"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                         <div class="col-sm-10">
-                          <input v-model="form.email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+                          <input v-model="form.email" type="email" class="form-control" id="inputEmail" placeholder="Email" :class="{ 'is-invalid': form.errors.has('email') }">
+                          <has-error :form="form" field="email"></has-error>
                         </div>
                       </div>
                       <!-- <div class="form-group">
@@ -105,14 +108,24 @@
                         <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
 
                         <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                          <textarea v-model="form.experience" class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                          <has-error :form="form" field="experience"></has-error>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+                      <!-- <div class="form-group">
+                        <label for="position" class="col-sm-2 control-label">Position</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                          <input  v-model="form.position" type="text" class="form-control" id="position" name="position" placeholder="Position">
+                          <has-error :form="form" field="position"></has-error>
+                        </div>
+                      </div> -->
+                      <div class="form-group">
+                        <label for="bio" class="col-sm-2 control-label">Biography</label>
+
+                        <div class="col-sm-10">
+                          <input  v-model="form.bio" type="text" class="form-control" id="bio" name="bio" placeholder="Biography">
+                          <has-error :form="form" field="bio"></has-error>
                         </div>
                       </div>
                       <div class="form-group">
@@ -158,6 +171,7 @@
                     email: '',
                     password: '',
                     type: '',
+                    // position: '',
                     bio: '',
                     photo: ''
                 })
@@ -167,12 +181,23 @@
             console.log('Component mounted.')
         },
         methods:{
+            getProfilePhoto(){
+              let photo = (this.form.photo.length > 100) ? this.form.photo : "images/profile/" + this.form.photo;
+              return photo;
+            },
             updateInfo(){
                 this.$Progress.start();
+                if (this.form.password == '') {
+                  this.form.password == undefined;
+                }
                 this.form.put('api/profile')
             .then(()=>{
                 this.$Progress.finish();
-
+                swal(
+                    'Updated!',
+                    'the User info has been updated.',
+                    'success'
+                    )
             })
             .catch(()=>{
               this.$Progress.fail();
