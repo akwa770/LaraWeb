@@ -15,8 +15,8 @@
             <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header text-white" style="background-image:url('./images/profile-bg.jpg');">
-                <h3 class="widget-user-username">Elizabeth Pierce</h3>
-                <h5 class="widget-user-desc">Web Designer</h5>
+                <h3 class="widget-user-username">Elizabeth Pierce  {{ this.form.name }} </h3>
+                <h5 class="widget-user-desc">Web Designer {{ this.form.type }}</h5>
               </div>
               <div class="widget-user-image">
                 <img class="img-circle" src="" alt="User Avatar">
@@ -132,7 +132,7 @@
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Submit</button>
+                          <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
                         </div>
                       </div>
                     </form>
@@ -166,8 +166,31 @@
         mounted() {
             console.log('Component mounted.')
         },
+        methods:{
+            updateInfo(){
+              this.form.put('api/profile')
+              .then(()=>{
+
+              })
+              .catch(()=>{
+                
+              });
+            },
+            updateProfile(e){
+              // console.log('uploading');
+                let file = e.target.files[0];
+                let reader = new FileReader();
+                reader.onloadend = (file) => {
+                  console.log('RESULT', reader.result)
+                  this.form.photo = reader.result;
+                }
+                  reader.readAsDataURL(file);
+
+            }
+        },
         created() {
             axios.get('api/profile').then(({data}) => (this.form.fill(data)));
-        }
+        },
+
     }
 </script>
