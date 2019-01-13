@@ -76488,6 +76488,9 @@ var routes = [{
 }, {
   path: '/posts',
   component: __webpack_require__(/*! ./components/Posts.vue */ "./resources/js/components/Posts.vue").default
+}, {
+  path: '*',
+  component: __webpack_require__(/*! ./components/404.vue */ "./resources/js/components/404.vue").default
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_4__["default"]({
   // mode: 'history',
