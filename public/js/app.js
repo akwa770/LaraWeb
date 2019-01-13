@@ -76494,7 +76494,8 @@ var routes = [{
 }, {
   path: '/posts',
   component: __webpack_require__(/*! ./components/Posts.vue */ "./resources/js/components/Posts.vue").default
-}, {
+}, // { path: '/invoice', component: require('./components/Invoice.vue').default },
+{
   path: '*',
   component: __webpack_require__(/*! ./components/404.vue */ "./resources/js/components/404.vue").default
 }];
@@ -76534,9 +76535,11 @@ var app = new Vue({
     search: ''
   },
   methods: {
-    searchit: function searchit() {
-      console.log("Searching...");
+    searchit: _.debounce(function () {
       Fire.$emit('searching');
+    }, 1000),
+    printMe: function printMe() {
+      window.print();
     }
   }
 });
