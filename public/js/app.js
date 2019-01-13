@@ -1997,17 +1997,23 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    loadPosts: function loadPosts() {
+    getResults: function getResults() {
       var _this = this;
 
-      // if(this.$gate.isAdmin() || this.$gate.isAuthor()){
-      // axios.get('post').then(({data}) => (this.posts = data))
-      axios.get('post').then(function (_ref) {
-        var data = _ref.data;
-        return _this.posts = data;
-      }); // .catch(()=>{
-      // });
-      // }
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('post?page=' + page).then(function (response) {
+        _this.posts = response.data;
+      });
+    },
+    loadPosts: function loadPosts() {
+      var _this2 = this;
+
+      if (this.$gate.isAdmin() || this.$gate.isAuthor()) {
+        axios.get('post').then(function (_ref) {
+          var data = _ref.data;
+          return _this2.posts = data;
+        }).catch(function () {});
+      }
     },
     newPostModal: function newPostModal() {
       this.editMode = false;
@@ -2020,13 +2026,13 @@ __webpack_require__.r(__webpack_exports__);
       $('#addNewPostCenter').modal('show');
     },
     createPost: function createPost() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$Progress.start();
       this.form.post('post').then(function () {
         Fire.$emit('PostChange');
 
-        _this2.$Progress.finish();
+        _this3.$Progress.finish();
 
         $('#addNewPostCenter').modal('hide');
         toast({
@@ -2036,7 +2042,7 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function () {});
     },
     deletePost: function deletePost(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       swal({
         title: 'Are you sure?',
@@ -2049,7 +2055,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         // Send request to the server
         if (result.value) {
-          _this3.form.delete('post/' + id).then(function () {
+          _this4.form.delete('post/' + id).then(function () {
             swal('Deleted!', 'The post has been deleted.', 'success');
             Fire.$emit('PostChange');
           }).catch(function () {
@@ -2060,10 +2066,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     Fire.$on('PostChange', function () {
-      _this4.loadPosts();
+      _this5.loadPosts();
     });
     this.loadPosts();
   }
@@ -61356,7 +61362,36 @@ var render = function() {
                 2
               )
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-footer" },
+            [
+              _c(
+                "pagination",
+                {
+                  staticClass: " mt-5 justify-content-center",
+                  attrs: { data: _vm.posts },
+                  on: { "pagination-change-page": _vm.getResults }
+                },
+                [
+                  _c(
+                    "span",
+                    { attrs: { slot: "prev-nav" }, slot: "prev-nav" },
+                    [_vm._v("< Previous")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    { attrs: { slot: "next-nav" }, slot: "next-nav" },
+                    [_vm._v("Next >")]
+                  )
+                ]
+              )
+            ],
+            1
+          )
         ])
       ])
     ]),
