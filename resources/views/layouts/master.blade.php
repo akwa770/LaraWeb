@@ -59,11 +59,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
+          @if (Auth::user()->photo !== 'user.png')
+          
+          <img src="./images/profile/{{ Auth::user()->photo }}" class="img-circle elevation-2" alt="User Image">
+          @else
           <img src="./images/user.png" class="img-circle elevation-2" alt="User Image">
+              
+          @endif
         </div>
         <div class="info">
           <a href="#" class="d-block">
             {{ Auth::user()->name }}
+            <p>{{ Auth::user()->type }}</p>
           </a>
         </div>
       </div>
@@ -84,8 +91,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </router-link>
           </li>
 
-          @can('isAdmin')
-          
+          {{-- @can('isAdmin') --}}
+          @if( Gate::check('isAdmin') || Gate::check('isAuthor') )
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
@@ -103,9 +110,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </li>
               </ul>
             </li>
+          @endif
+          {{-- @endcan --}}
+          {{-- @can('isAdmin || isAuthor') --}}
+          @if( Gate::check('isAdmin') || Gate::check('isAuthor') )
 
-          @endcan
-          @can('isAdmin')
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fa fa-cog"></i>
@@ -124,8 +133,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     
                 </ul>
             </li>
-          @endcan
-
+          {{-- @endcan --}}
+          @endif
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
               <i class="nav-icon fas fa-user"></i>

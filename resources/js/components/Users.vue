@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-5" v-if="$gate.isAdmin()">
+        <div class="row mt-5" v-if="$gate.isAdmin() || $gate.isAuthor()">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
@@ -20,16 +20,16 @@
                         <th>E-mail</th>
                         <th>Type</th>
                         <th>Registered at</th>
-                        <th>Modify</th>
+                        <th v-if="$gate.isAdmin()">Modify</th>
                     </tr>
 
-                  <tr v-for="user in users" :key="user.id">
+                  <tr v-for="user in users.data" :key="user.id">
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.type | upperCase }}</td>
                     <td>{{ user.created_at | myDate }}</td>
-                    <td>
+                    <td v-if="$gate.isAdmin()">
                         <a href="#" @click="editUserModal(user)">
                             <i class="fa fa-edit blue"></i>
                         </a> 
@@ -43,11 +43,19 @@
                 </tbody></table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                  <pagination class=" mt-5 justify-content-center" :data="users" @pagination-change-page="getResults">
+                      	<span slot="prev-nav">&lt; Previous</span>
+	                    <span slot="next-nav">Next &gt;</span>
+                  </pagination>
+              </div>
             </div>
             <!-- /.card -->
           </div>
         </div>
-
+        <div class="not-found" v-if="!$gate.isAdmin() && !$gate.isAuthor()">
+           <not-found /> 
+        </div>  
         <!-- Modal -->
         <div class="modal fade" id="addNewUserCenter" tabindex="-1" role="dialog" aria-labelledby="addNewUserCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -128,6 +136,12 @@
             }
         },
         methods:{
+            getResults(page = 1) {
+			axios.get('api/user?page=' + page)
+				.then(response => {
+					this.users = response.data;
+				});
+		    },
             updateUser(){
                 this.$Progress.start();
                 this.form.put('api/user/'+this.form.id)
@@ -155,8 +169,8 @@
                  $('#addNewUserCenter').modal('show');
             },
             loadUsers(){
-                if(this.$gate.isAdmin()){
-                    axios.get('api/user').then(({data}) => (this.users = data.data))
+                if(this.$gate.isAdmin() || this.$gate.isAuthor()){
+                    axios.get('api/user').then(({data}) => (this.users = data))
                 }
             },
             createUser(){

@@ -33,6 +33,8 @@ window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
@@ -75,6 +77,7 @@ Vue.filter('myDate', date =>  moment(date).format('MMMM Do YYYY'));
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('not-found', require('./components/404.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
