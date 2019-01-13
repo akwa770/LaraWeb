@@ -61333,7 +61333,14 @@ var render = function() {
                       _c("td", [_vm._v(_vm._s(post.title))]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(_vm._s(_vm._f("upperCase")(post.body)))
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("truncate")(
+                              _vm._f("upperCase")(post.body),
+                              20
+                            )
+                          )
+                        )
                       ]),
                       _vm._v(" "),
                       _c("td", [
@@ -76614,12 +76621,20 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_4__["default"]({
   // mode: 'history',
   routes: routes // short for `routes: routes`
 
-});
+}); // Filters
+
 Vue.filter('upperCase', function (text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 });
 Vue.filter('myDate', function (date) {
   return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('MMMM Do YYYY');
+});
+Vue.filter('truncate', function (value) {
+  if (value.length > 20) {
+    value = value.substring(0, 20) + '...';
+  }
+
+  return value;
 });
 /**
  * The following block of code may be used to automatically register your

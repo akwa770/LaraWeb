@@ -25,7 +25,7 @@
                   <tr v-for="post in posts.data" :key="post.id">
                     <td>{{ post.id }}</td>
                     <td>{{ post.title }}</td>
-                    <td>{{ post.body | upperCase }}</td>
+                    <td>{{ post.body | upperCase | truncate(20) }}</td>
                     <td>{{ post.created_at | myDate }}</td>
                     <td>
                         <a href="#" @click="editPostModal(post)">

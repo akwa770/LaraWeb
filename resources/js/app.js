@@ -63,9 +63,16 @@ const router = new VueRouter({
   routes // short for `routes: routes`
 })
 
-
+// Filters
 Vue.filter('upperCase', text =>  text.charAt(0).toUpperCase() + text.slice(1));
 Vue.filter('myDate', date =>  moment(date).format('MMMM Do YYYY'));
+Vue.filter('truncate', value => {
+  if(value.length > 20){
+    value = value.substring(0, 20) + '...';
+  }
+  return value
+
+});
 
 /**
  * The following block of code may be used to automatically register your
