@@ -218,6 +218,15 @@
 
         },
         created() {
+            Fire.$on('searching', () => {
+                let q = this.$parent.search;
+                axios.get('api/findUser?q='+ q)
+                .then( data => {
+                    this.users = data.data;
+                }).catch(() => {
+
+                })
+            });
             this.loadUsers();
             Fire.$on('UserChange', () => {this.loadUsers()});
         }

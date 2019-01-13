@@ -88,5 +88,14 @@ Vue.component('not-found', require('./components/404.vue').default);
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data:{
+      search: ''
+    },
+    methods:{
+      searchit(){
+        console.log("Searching...");
+        Fire.$emit('searching');
+      }
+    }
 });
