@@ -129,7 +129,7 @@
                 if(this.$gate.isAdmin() || this.$gate.isAuthor()){
                     axios.get('post').then(({data}) => (this.posts = data))
                     .catch(()=>{
-
+                        
                     });
                 }
                 },
@@ -143,6 +143,22 @@
                     this.form.fill(post);
                     $('#addNewPostCenter').modal('show');
                 },
+               updatePost(){
+                this.$Progress.start();
+                this.form.put('post/'+this.form.id)
+                .then(() => {
+                    swal(
+                        'Updated!',
+                        'the Post has been updated.',
+                        'success'
+                        )
+                    Fire.$emit('PostChange');
+                    $('#addNewPostCenter').modal('hide');
+                    this.$Progress.finish();
+                })
+                .catch()
+                    this.$Progress.fail();
+            },
                createPost(){
                 this.$Progress.start();
                 this.form.post('post').then(()=>{

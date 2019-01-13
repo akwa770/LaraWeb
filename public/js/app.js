@@ -2025,14 +2025,27 @@ __webpack_require__.r(__webpack_exports__);
       this.form.fill(post);
       $('#addNewPostCenter').modal('show');
     },
-    createPost: function createPost() {
+    updatePost: function updatePost() {
       var _this3 = this;
+
+      this.$Progress.start();
+      this.form.put('post/' + this.form.id).then(function () {
+        swal('Updated!', 'the Post has been updated.', 'success');
+        Fire.$emit('PostChange');
+        $('#addNewPostCenter').modal('hide');
+
+        _this3.$Progress.finish();
+      }).catch();
+      this.$Progress.fail();
+    },
+    createPost: function createPost() {
+      var _this4 = this;
 
       this.$Progress.start();
       this.form.post('post').then(function () {
         Fire.$emit('PostChange');
 
-        _this3.$Progress.finish();
+        _this4.$Progress.finish();
 
         $('#addNewPostCenter').modal('hide');
         toast({
@@ -2042,7 +2055,7 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function () {});
     },
     deletePost: function deletePost(id) {
-      var _this4 = this;
+      var _this5 = this;
 
       swal({
         title: 'Are you sure?',
@@ -2055,7 +2068,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         // Send request to the server
         if (result.value) {
-          _this4.form.delete('post/' + id).then(function () {
+          _this5.form.delete('post/' + id).then(function () {
             swal('Deleted!', 'The post has been deleted.', 'success');
             Fire.$emit('PostChange');
           }).catch(function () {
@@ -2066,10 +2079,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this5 = this;
+    var _this6 = this;
 
     Fire.$on('PostChange', function () {
-      _this5.loadPosts();
+      _this6.loadPosts();
     });
     this.loadPosts();
   }

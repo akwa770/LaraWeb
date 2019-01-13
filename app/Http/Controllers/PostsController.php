@@ -82,7 +82,17 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrfail($id);
+        $post->update($request->all());
+
+        $this->validate($request,
+        [
+            'title' => 'required|string|max:191',
+            'body' => 'required|string',
+     
+        ]);
+
+        return ['message' => 'Post Updated'];
     }
 
     /**
