@@ -7,7 +7,7 @@
                 <h3 class="card-title">Posts Table</h3>
 
                 <div class="card-tools">
-                    <button class="btn btn-success" @click="newPost" >Add New <i class="fas fa-file fa-fw"></i> </button>
+                    <button class="btn btn-success" @click="newPostModal" >Add New <i class="fas fa-file fa-fw"></i> </button>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -17,17 +17,15 @@
                       <tr>
                         <th>ID</th>
                         <th>Title</th>
-                        <th>Description</th>
-                        <th>Author</th>
+                        <th>Body</th>
                         <th>Created at</th>
                         <th>Modify</th>
                     </tr>
 
-                  <tr v-for="user in users" :key="user.id">
+                  <tr v-for="post in posts.data" :key="post.id">
                     <td>{{ post.id }}</td>
                     <td>{{ post.title }}</td>
-                    <td>{{ post.description | upperCase }}</td>
-                    <td>{{ post.author }}</td>
+                    <td>{{ post.body | upperCase }}</td>
                     <td>{{ post.created_at | myDate }}</td>
                     <td>
                         <a href="#" @click="editPostModal(post)">
@@ -43,6 +41,12 @@
                 </tbody></table>
               </div>
               <!-- /.card-body -->
+                <!-- <div class="card-footer">
+                  <pagination class=" mt-5 justify-content-center" :data="posts" @pagination-change-page="getResults">
+                      	<span slot="prev-nav">&lt; Previous</span>
+	                    <span slot="next-nav">Next &gt;</span>
+                  </pagination>
+              </div> -->
             </div>
             <!-- /.card -->
           </div>
@@ -53,8 +57,8 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 v-show="!editMode" class="modal-title" id="addNewUserCenterTitle">Add New Post</h5>
-                <h5 v-show="editMode" class="modal-title" id="addNewUserCenterTitle">Update Post</h5>
+                <h5 v-show="!editMode" class="modal-title" id="addNewPostCenterTitle">Add New Post</h5>
+                <h5 v-show="editMode" class="modal-title" id="addNewPostCenterTitle">Update Post</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -70,9 +74,9 @@
                     </div>
               
                     <div class="form-group">
-                        <textarea v-model="form.description" name="description" placeholder="Description"
-                            class="form-control" :class="{ 'is-invalid': form.errors.has('description') }"></textarea>
-                        <has-error :form="form" field="description"></has-error>
+                        <textarea v-model="form.body" name="body" placeholder="Body"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('body') }"></textarea>
+                        <has-error :form="form" field="body"></has-error>
                     </div>
 
                     <!-- <div class="form-group">
@@ -105,16 +109,81 @@
         data(){
             return{
                editMode : true,
-               users: {},
+               posts: {},
                form: new Form({
                     id: '',
                     title: '',
-                    description: '',
-                    author: '',
-                    photo: ''
+                    body: ''
                 })
             }
         
+        },
+        methods:{
+               loadPosts(){
+                // if(this.$gate.isAdmin() || this.$gate.isAuthor()){
+                    // axios.get('post').then(({data}) => (this.posts = data))
+                    axios.get('post').then(({data}) => (this.posts = data))
+                    // .catch(()=>{
+
+                    // });
+                // }
+                },
+                newPostModal(){
+                this.editMode = false;
+                this.form.reset();
+                 $('#addNewPostCenter').modal('show');
+                },
+               editPostModal(post){
+                    this.editMode = true;
+                    this.form.fill(post);
+                    $('#addNewPostCenter').modal('show');
+                },
+               createPost(){
+                this.$Progress.start();
+                this.form.post('post').then(()=>{
+
+                    Fire.$emit('PostChange');
+                    this.$Progress.finish();
+                    $('#addNewPostCenter').modal('hide');
+
+                    toast({
+                        type: 'success',
+                        title: 'Post created successfully'
+                    })
+
+                    }).catch(()=>{
+
+                    });
+                },
+            deletePost(id){
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        // Send request to the server
+                         if (result.value) {
+                                this.form.delete('post/'+id).then(()=>{
+                                        swal(
+                                        'Deleted!',
+                                        'The post has been deleted.',
+                                        'success'
+                                        )
+                                    Fire.$emit('PostChange');
+                                }).catch(()=> {
+                                    swal("Failed!", "There was something wronge.", "warning");
+                                });
+                         }
+                    })
+            }
+        },
+        created() {
+            Fire.$on('PostChange', () => {this.loadPosts()});
+            this.loadPosts();
         }
     }
 </script>

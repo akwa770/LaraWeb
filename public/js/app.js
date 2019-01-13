@@ -1980,19 +1980,92 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       editMode: true,
-      users: {},
+      posts: {},
       form: new Form({
         id: '',
         title: '',
-        description: '',
-        author: '',
-        photo: ''
+        body: ''
       })
     };
+  },
+  methods: {
+    loadPosts: function loadPosts() {
+      var _this = this;
+
+      // if(this.$gate.isAdmin() || this.$gate.isAuthor()){
+      // axios.get('post').then(({data}) => (this.posts = data))
+      axios.get('post').then(function (_ref) {
+        var data = _ref.data;
+        return _this.posts = data;
+      }); // .catch(()=>{
+      // });
+      // }
+    },
+    newPostModal: function newPostModal() {
+      this.editMode = false;
+      this.form.reset();
+      $('#addNewPostCenter').modal('show');
+    },
+    editPostModal: function editPostModal(post) {
+      this.editMode = true;
+      this.form.fill(post);
+      $('#addNewPostCenter').modal('show');
+    },
+    createPost: function createPost() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.post('post').then(function () {
+        Fire.$emit('PostChange');
+
+        _this2.$Progress.finish();
+
+        $('#addNewPostCenter').modal('hide');
+        toast({
+          type: 'success',
+          title: 'Post created successfully'
+        });
+      }).catch(function () {});
+    },
+    deletePost: function deletePost(id) {
+      var _this3 = this;
+
+      swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        // Send request to the server
+        if (result.value) {
+          _this3.form.delete('post/' + id).then(function () {
+            swal('Deleted!', 'The post has been deleted.', 'success');
+            Fire.$emit('PostChange');
+          }).catch(function () {
+            swal("Failed!", "There was something wronge.", "warning");
+          });
+        }
+      });
+    }
+  },
+  created: function created() {
+    var _this4 = this;
+
+    Fire.$on('PostChange', function () {
+      _this4.loadPosts();
+    });
+    this.loadPosts();
   }
 });
 
@@ -61215,7 +61288,10 @@ var render = function() {
             _c("div", { staticClass: "card-tools" }, [
               _c(
                 "button",
-                { staticClass: "btn btn-success", on: { click: _vm.newPost } },
+                {
+                  staticClass: "btn btn-success",
+                  on: { click: _vm.newPostModal }
+                },
                 [
                   _vm._v("Add New "),
                   _c("i", { staticClass: "fas fa-file fa-fw" })
@@ -61231,22 +61307,18 @@ var render = function() {
                 [
                   _vm._m(0),
                   _vm._v(" "),
-                  _vm._l(_vm.users, function(user) {
-                    return _c("tr", { key: user.id }, [
-                      _c("td", [_vm._v(_vm._s(_vm.post.id))]),
+                  _vm._l(_vm.posts.data, function(post) {
+                    return _c("tr", { key: post.id }, [
+                      _c("td", [_vm._v(_vm._s(post.id))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.post.title))]),
+                      _c("td", [_vm._v(_vm._s(post.title))]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(
-                          _vm._s(_vm._f("upperCase")(_vm.post.description))
-                        )
+                        _vm._v(_vm._s(_vm._f("upperCase")(post.body)))
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.post.author))]),
-                      _vm._v(" "),
                       _c("td", [
-                        _vm._v(_vm._s(_vm._f("myDate")(_vm.post.created_at)))
+                        _vm._v(_vm._s(_vm._f("myDate")(post.created_at)))
                       ]),
                       _vm._v(" "),
                       _c("td", [
@@ -61256,20 +61328,22 @@ var render = function() {
                             attrs: { href: "#" },
                             on: {
                               click: function($event) {
-                                _vm.editPostModal(_vm.post)
+                                _vm.editPostModal(post)
                               }
                             }
                           },
                           [_c("i", { staticClass: "fa fa-edit blue" })]
                         ),
-                        _vm._v(" \n               /\n                   "),
+                        _vm._v(
+                          " \n                   /\n                       "
+                        ),
                         _c(
                           "a",
                           {
                             attrs: { href: "#" },
                             on: {
                               click: function($event) {
-                                _vm.deletePost(_vm.post.id)
+                                _vm.deletePost(post.id)
                               }
                             }
                           },
@@ -61321,7 +61395,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "modal-title",
-                    attrs: { id: "addNewUserCenterTitle" }
+                    attrs: { id: "addNewPostCenterTitle" }
                   },
                   [_vm._v("Add New Post")]
                 ),
@@ -61338,7 +61412,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "modal-title",
-                    attrs: { id: "addNewUserCenterTitle" }
+                    attrs: { id: "addNewPostCenterTitle" }
                   },
                   [_vm._v("Update Post")]
                 ),
@@ -61405,35 +61479,26 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.form.description,
-                              expression: "form.description"
+                              value: _vm.form.body,
+                              expression: "form.body"
                             }
                           ],
                           staticClass: "form-control",
-                          class: {
-                            "is-invalid": _vm.form.errors.has("description")
-                          },
-                          attrs: {
-                            name: "description",
-                            placeholder: "Description"
-                          },
-                          domProps: { value: _vm.form.description },
+                          class: { "is-invalid": _vm.form.errors.has("body") },
+                          attrs: { name: "body", placeholder: "Body" },
+                          domProps: { value: _vm.form.body },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.$set(
-                                _vm.form,
-                                "description",
-                                $event.target.value
-                              )
+                              _vm.$set(_vm.form, "body", $event.target.value)
                             }
                           }
                         }),
                         _vm._v(" "),
                         _c("has-error", {
-                          attrs: { form: _vm.form, field: "description" }
+                          attrs: { form: _vm.form, field: "body" }
                         })
                       ],
                       1
@@ -61503,9 +61568,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Title")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Description")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Author")]),
+      _c("th", [_vm._v("Body")]),
       _vm._v(" "),
       _c("th", [_vm._v("Created at")]),
       _vm._v(" "),
@@ -76494,7 +76557,7 @@ var routes = [{
 }, {
   path: '/posts',
   component: __webpack_require__(/*! ./components/Posts.vue */ "./resources/js/components/Posts.vue").default
-}, // { path: '/invoice', component: require('./components/Invoice.vue').default },
+}, // { path: '/blog', component: require('./components/front/Blog.vue').default },
 {
   path: '*',
   component: __webpack_require__(/*! ./components/404.vue */ "./resources/js/components/404.vue").default

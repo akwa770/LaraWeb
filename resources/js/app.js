@@ -53,7 +53,7 @@ let routes = [
     { path: '/profile', component: require('./components/Profile.vue').default },
     { path: '/users', component: require('./components/Users.vue').default },
     { path: '/posts', component: require('./components/Posts.vue').default },
-    // { path: '/invoice', component: require('./components/Invoice.vue').default },
+    // { path: '/blog', component: require('./components/front/Blog.vue').default },
     { path: '*', component: require('./components/404.vue').default }
   ]
 
