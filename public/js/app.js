@@ -1828,6 +1828,77 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -61212,16 +61283,216 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card card-default" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Dashboard Component")
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-12" }, [
+            _c("h4", { staticClass: "d-inline" }, [
+              _vm._v("Card with Image "),
+              _c(
+                "a",
+                { attrs: { href: "#code1", "data-toggle": "collapse" } },
+                [
+                  _c("i", {
+                    staticClass: "fa fa-code",
+                    attrs: {
+                      "data-toggle": "tooltip",
+                      title: "",
+                      "data-original-title": "Get code"
+                    }
+                  })
+                ]
+              )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
+            _c("p", { staticClass: "text-muted m-t-0" }, [
+              _vm._v("For the code click on above code icon")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "collapse", attrs: { id: "code1" } }, [
+              _c("div", { staticClass: "highlight" }, [
+                _c("pre", [
+                  _vm._v("    "),
+                  _c("code", [
+                    _c("span", { staticClass: "nt" }, [_vm._v("<div")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("class=")]),
+                    _c("span", { staticClass: "s" }, [_vm._v('"card"')]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("style=")]),
+                    _c("span", { staticClass: "s" }, [
+                      _vm._v('"width: 20rem;"')
+                    ]),
+                    _c("span", { staticClass: "nt" }, [_vm._v(">")]),
+                    _vm._v("\n      "),
+                    _c("span", { staticClass: "nt" }, [_vm._v("<img")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("class=")]),
+                    _c("span", { staticClass: "s" }, [
+                      _vm._v('"card-img-top"')
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("src=")]),
+                    _c("span", { staticClass: "s" }, [_vm._v('"..."')]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("alt=")]),
+                    _c("span", { staticClass: "s" }, [
+                      _vm._v('"Card image cap"')
+                    ]),
+                    _c("span", { staticClass: "nt" }, [_vm._v(">")]),
+                    _vm._v("\n      "),
+                    _c("span", { staticClass: "nt" }, [_vm._v("<div")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("class=")]),
+                    _c("span", { staticClass: "s" }, [_vm._v('"card-body"')]),
+                    _c("span", { staticClass: "nt" }, [_vm._v(">")]),
+                    _vm._v("\n        "),
+                    _c("span", { staticClass: "nt" }, [_vm._v("<h4")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("class=")]),
+                    _c("span", { staticClass: "s" }, [_vm._v('"card-title"')]),
+                    _c("span", { staticClass: "nt" }, [_vm._v(">")]),
+                    _vm._v("Card title"),
+                    _c("span", { staticClass: "nt" }, [_vm._v("</h4>")]),
+                    _vm._v("\n        "),
+                    _c("span", { staticClass: "nt" }, [_vm._v("<p")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("class=")]),
+                    _c("span", { staticClass: "s" }, [_vm._v('"card-text"')]),
+                    _c("span", { staticClass: "nt" }, [_vm._v(">")]),
+                    _vm._v(
+                      "Some quick example text to build on the card title and make up the bulk of the card's content."
+                    ),
+                    _c("span", { staticClass: "nt" }, [_vm._v("</p>")]),
+                    _vm._v("\n        "),
+                    _c("span", { staticClass: "nt" }, [_vm._v("<a")]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("href=")]),
+                    _c("span", { staticClass: "s" }, [_vm._v('"#"')]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "na" }, [_vm._v("class=")]),
+                    _c("span", { staticClass: "s" }, [
+                      _vm._v('"btn btn-primary"')
+                    ]),
+                    _c("span", { staticClass: "nt" }, [_vm._v(">")]),
+                    _vm._v("Go somewhere"),
+                    _c("span", { staticClass: "nt" }, [_vm._v("</a>")]),
+                    _vm._v("\n      "),
+                    _c("span", { staticClass: "nt" }, [_vm._v("</div>")]),
+                    _vm._v("\n    "),
+                    _c("span", { staticClass: "nt" }, [_vm._v("</div>")])
+                  ]),
+                  _vm._v("\n")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-3 col-md-6" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("img", {
+                    staticClass: "card-img-top img-responsive",
+                    attrs: { src: "", alt: "Card image cap" }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Card title")
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "card-text" }, [
+                      _vm._v(
+                        "Some quick example text to build on the card title and make up the bulk of the card's content."
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "btn btn-primary", attrs: { href: "#" } },
+                      [_vm._v("Go somewhere")]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-3 col-md-6" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("img", {
+                    staticClass: "card-img-top img-responsive",
+                    attrs: { src: "", alt: "Card image cap" }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Card title")
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "card-text" }, [
+                      _vm._v(
+                        "Some quick example text to build on the card title and make up the bulk of the card's content."
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "btn btn-primary", attrs: { href: "#" } },
+                      [_vm._v("Go somewhere")]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-3 col-md-6" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("img", {
+                    staticClass: "card-img-top img-responsive",
+                    attrs: { src: "", alt: "Card image cap" }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Card title")
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "card-text" }, [
+                      _vm._v(
+                        "Some quick example text to build on the card title and make up the bulk of the card's content."
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "btn btn-primary", attrs: { href: "#" } },
+                      [_vm._v("Go somewhere")]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-3 col-md-6 img-responsive" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("img", {
+                    staticClass: "card-img-top img-responsive",
+                    attrs: { src: "", alt: "Card image cap" }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Card title")
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "card-text" }, [
+                      _vm._v(
+                        "Some quick example text to build on the card title and make up the bulk of the card's content."
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      { staticClass: "btn btn-primary", attrs: { href: "#" } },
+                      [_vm._v("Go somewhere")]
+                    )
+                  ])
+                ])
+              ])
             ])
           ])
         ])
@@ -61540,7 +61811,12 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           class: { "is-invalid": _vm.form.errors.has("body") },
-                          attrs: { name: "body", placeholder: "Body" },
+                          attrs: {
+                            rows: "10",
+                            cols: "50",
+                            name: "body",
+                            placeholder: "Body"
+                          },
                           domProps: { value: _vm.form.body },
                           on: {
                             input: function($event) {

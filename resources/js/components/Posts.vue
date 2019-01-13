@@ -74,7 +74,7 @@
                     </div>
               
                     <div class="form-group">
-                        <textarea v-model="form.body" name="body" placeholder="Body"
+                        <textarea rows="10" cols="50" v-model="form.body" name="body" placeholder="Body"
                             class="form-control" :class="{ 'is-invalid': form.errors.has('body') }"></textarea>
                         <has-error :form="form" field="body"></has-error>
                     </div>
