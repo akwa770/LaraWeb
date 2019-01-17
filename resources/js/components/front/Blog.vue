@@ -39,7 +39,7 @@
                           <h6 class="card-title mt-4"><router-link :to="`blog/post/${post.id}`">{{ post.title }}</router-link></h6>
                           <p class="card-text text-justify">{{ post.body | upperCase }}</p>
                           <!-- <a href="https://www.google.com" class="btn btn-primary">read more...</a> -->
-                          <router-link :to="`blog/post/${post.id}`" class="d-block">Read More</router-link>
+                          <router-link :to="`blog/post/${post.id}`" class="read-more d-block">Read More</router-link>
                         </div>
                       </div>
                     </div>
@@ -89,3 +89,31 @@ export default {
   }
 };
 </script>
+<style>
+body {
+    background-color: #FFFFFF;
+}
+.card {
+    border-radius:0;
+    margin:10px auto;
+}
+.card-title {
+	text-transform: uppercase;
+}
+
+.card-text {
+	margin-top:10px;
+	margin-bottom: 10px;
+	background-color:#FFFFFF;
+	color:#000000;
+}
+a.btn, a.btn:visited {
+    color:#333333;
+}
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+</style>
