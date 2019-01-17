@@ -132,14 +132,18 @@
                     type: '',
                     bio: '',
                     photo: ''
-                })
+                }),
+                xxx: null
             }
         },
         methods:{
             getResults(page = 1) {
 			axios.get('api/user?page=' + page)
 				.then(response => {
-					this.users = response.data;
+					this.users = response.data.users;
+                    this.xxx = response.data.users_count;
+                    console.log("xxx =" + this.xxx);
+                    
 				});
 		    },
             updateUser(){
@@ -170,7 +174,7 @@
             },
             loadUsers(){
                 if(this.$gate.isAdmin() || this.$gate.isAuthor()){
-                    axios.get('api/user').then(({data}) => (this.users = data))
+                    axios.get('api/user').then(({data}) => (this.users = data.users))
                 }
             },
             createUser(){

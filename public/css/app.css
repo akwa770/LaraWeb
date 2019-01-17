@@ -29321,3 +29321,10 @@ readers do not read off random characters that represent icons */
   margin: 0;
 }
 
+.full-width-div {
+  width: 100vw;
+  position: relative;
+  margin-left: -50vw;
+  left: 50%;
+}
+

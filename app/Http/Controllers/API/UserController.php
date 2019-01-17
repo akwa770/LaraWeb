@@ -28,7 +28,16 @@ class UserController extends Controller
     {
         // $this->authorize('isAdmin');
         if (Gate::allows('isAdmin') || Gate::allows('isAuthor')) {
-            return User::latest()->paginate(5);
+            
+            $users = User::latest()->paginate(5);
+            
+            $usersData = [
+                'users' => $users,
+                'users_count' => User::all()->count(),
+            ];
+            
+            // return ['message' => 'getCountPosts'];
+            return $usersData;
         }
         
     }

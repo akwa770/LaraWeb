@@ -18,6 +18,7 @@
                         <th>ID</th>
                         <th>Title</th>
                         <th>Body</th>
+                        <th>Photo</th> 
                         <th>Created at</th>
                         <th>Modify</th>
                     </tr>
@@ -26,6 +27,8 @@
                     <td>{{ post.id }}</td>
                     <td>{{ post.title }}</td>
                     <td>{{ post.body | upperCase | truncate(20) }}</td>
+                    <!-- <img v-bind="getImgUrl(post.photo)" class="img-thumbnail" width="50" height="auto" alt="Cinque Terre"> -->
+                    <td>{{ post.photo }}</td>
                     <td>{{ post.created_at | myDate }}</td>
                     <td>
                         <a href="#" @click="editPostModal(post)">
@@ -78,7 +81,12 @@
                             class="form-control" :class="{ 'is-invalid': form.errors.has('body') }"></textarea>
                         <has-error :form="form" field="body"></has-error>
                     </div>
-
+                    <div class="form-group">
+                        <label for="photo" class="col-sm-2 control-label">Photo</label>
+                        <div class="col-sm-12">
+                            <input type="file" @change="updatePhoto" name="photo" class="form-input">
+                        </div>
+                      </div>
                     <!-- <div class="form-group">
                         <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
                             <option value="">Select User Role</option>
@@ -113,8 +121,11 @@
                form: new Form({
                     id: '',
                     title: '',
-                    body: ''
-                })
+                    body: '',
+                    photo: ''
+                }),
+                // thumbnail: null
+                // thumbnail: ''
             }
         
         },
@@ -122,18 +133,24 @@
                 getResults(page = 1) {
                     axios.get('post?page=' + page)
                         .then(response => {
-                            this.posts = response.data;
+                            this.posts = response.data.posts;
                     });
+                },
+                getImgUrl(pic) {
+                    // let images = require.context('./images/', false, /\.jpg$/)
+                    // return images('./' + pic)
+                    return require('./images/'+pic)
                 },
                loadPosts(){
                 if(this.$gate.isAdmin() || this.$gate.isAuthor()){
-                    axios.get('post').then(({data}) => (this.posts = data))
+                    axios.get('post')
+                    .then(({data}) => (this.posts = data.posts))
                     .catch(()=>{
-                        
+                        console.log("no posts found!!!");
                     });
                 }
                 },
-                newPostModal(){
+                newPostModal(){ 
                 this.editMode = false;
                 this.form.reset();
                  $('#addNewPostCenter').modal('show');
@@ -158,6 +175,28 @@
                 })
                 .catch()
                     this.$Progress.fail();
+            },
+            updatePhoto(e){
+              console.log('uploading');
+                let file = e.target.files[0];
+                let reader = new FileReader();
+                console.log(file);
+                
+                if (file['size'] < 3000000) {
+                  
+                  reader.onloadend = (file) => {
+                    console.log('RESULT', reader.result)
+                    this.form.photo = reader.result;
+                  }
+                    reader.readAsDataURL(file);
+                } else {
+                  swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'You are uploading a large file!',
+                  })
+                }
+
             },
                createPost(){
                 this.$Progress.start();

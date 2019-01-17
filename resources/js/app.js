@@ -39,7 +39,6 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 import VueProgressBar from 'vue-progressbar';
-
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
@@ -47,19 +46,22 @@ Vue.use(VueProgressBar, {
 })
 
 
-
 let routes = [
+    { path: '/', component: require('./components/front/Blog.vue').default},
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
     { path: '/users', component: require('./components/Users.vue').default },
     { path: '/posts', component: require('./components/Posts.vue').default },
-    // { path: '/blog', component: require('./components/front/Blog.vue').default },
+    { path: '/single-post', component: require('./components/front/SinglePost.vue').default },
+    { path: '/blog', component: require('./components/front/Blog.vue').default, props: { id: ''}},
+    { path: '/blog/post/:id', component: require('./components/front/SinglePost.vue').default },//ניסיון
     { path: '*', component: require('./components/404.vue').default }
   ]
 
 
 const router = new VueRouter({
   // mode: 'history',
+  // base: __dirname,
   routes // short for `routes: routes`
 })
 
@@ -86,6 +88,8 @@ Vue.filter('truncate', value => {
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('slider', require('./components/partials/Slider.vue').default);
+Vue.component('header-image', require('./components/partials/HeaderImage.vue').default);
 Vue.component('not-found', require('./components/404.vue').default);
 
 /**

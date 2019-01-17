@@ -12,13 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.front');
 });
+// Route::get('/', 'PagesController@getNsa');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/invoice', 'PagesController@getInvoice');
+// Route::get('/home/front', 'PagesController@getFront');
 
 Route::Resources(['post' => 'PostsController']);
 Route::get('{path}',"HomeController@index")->where( 'path', '([A-z\d-\/_.]+)?' );

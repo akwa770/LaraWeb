@@ -14,10 +14,21 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return Post::latest()->paginate(5);
-
+        // return Post::latest()->paginate(5);
 
         // return ['message' => 'Posts page'];
+
+        $posts = Post::latest()->paginate(5);
+
+        $postsData = [
+            'posts' => $posts,
+            'posts_count' => Post::all()->count(),
+            'aaa' => 'aaa'
+        ];
+        
+        // return ['message' => 'getCountPosts'];
+        return $postsData;
+        // return $posts;
 
     }
 
@@ -31,7 +42,7 @@ class PostsController extends Controller
         //
     }
 
-    /**
+    /** 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,12 +53,13 @@ class PostsController extends Controller
         $this->validate($request,
         [
             'title' => 'required|string|max:191',
-            'body' => 'required|string|max:191',
+            'body' => 'required|string|max:3000',
      
         ]);
         return Post::create([
             'title' => $request['title'],
             'body' => $request['body'],
+            'photo' => $request['photo'],
             ]);
     }
 
@@ -59,7 +71,9 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::findOrfail($id);
+        
+        return  $post;
     }
 
     /**
@@ -88,7 +102,7 @@ class PostsController extends Controller
         $this->validate($request,
         [
             'title' => 'required|string|max:191',
-            'body' => 'required|string',
+            'body' => 'required|string|max:3000',
      
         ]);
 
